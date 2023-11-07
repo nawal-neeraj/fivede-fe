@@ -1,0 +1,37 @@
+.dropzone{
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ height: 300px;
+ width: 300px;
+ border: 2px dashed rgb(24, 23, 23);
+ padding: 20px;
+}
+
+.form-fill{
+ display: flex;
+ justify-content: center;
+}
+
+.drop{
+  margin-left: 25%;
+  padding-top: 10%;
+}
+
+.btn-browse{
+ position: relative;
+ overflow: hidden;
+ background: #001B30;
+ padding: 10px 30px;
+ color: #fff;
+ border-radius: 2rem;
+}
+
+.btn-browse input[type="file"]{
+ cursor: pointer;
+ position: absolute;
+ transform: scale(3);
+ opacity: 0;
+
+}
