@@ -1,9 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import "./dragdropfile.css";
+import { setImage } from "../redux/action";
 
 const DragDropFile = () => {
   const [file, setFile] = useState(null);
-
+  const dispatch = useDispatch();
   const handleDragOver = (event) => {
     event.preventDefault();
     console.log(event);
@@ -18,36 +20,27 @@ const DragDropFile = () => {
     e.preventDefault();
     console.log(e.target.files);
     if (e.target.files[0] !== null) {
-      setFile(URL.createObjectURL(e.target.files[0]));
-      // window.location.reload();
+      dispatch(setImage(URL.createObjectURL(e.target.files[0])));
     }
   };
-
-  console.log("====>", file);
   return (
     <>
-      {!file && (
-        <div
-          className="dropzone"
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >
-          <h3>Drag and drop Files</h3>
-          <h3>Or</h3>
-          <h3>select file</h3>
-          <button className="btn-browse">
-            browse
-            <input
-              type="file"
-              title="browse"
-              // hidden
-              onChange={(event) => handleBrowes(event)}
-            />
-          </button>
-        </div>
-      )}
+      <div className="dropzone" onDragOver={handleDragOver} onDrop={handleDrop}>
+        <h3>Drag and drop Files</h3>
+        <h3>Or</h3>
+        <h3>select file</h3>
+        <button className="btn-browse">
+          browse
+          <input
+            type="file"
+            title="browse"
+            // hidden
+            onChange={(event) => handleBrowes(event)}
+          />
+        </button>
+      </div>
     </>
   );
 };
 
-export default DragDropFile;
+export default React.memo(DragDropFile);

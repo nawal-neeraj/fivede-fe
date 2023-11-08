@@ -1,7 +1,25 @@
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import DragDropFile from "../drop/dragDropFile";
 import "./dashboard.css";
+import { getValue } from "../utils";
+import { useNavigate } from "react-router";
+import TagInput from "../tag/taginput";
 
 const Dashboard = () => {
+  const [title, setTitle] = useState();
+  const { imageReducer = {} } = useSelector((state) => state);
+  const { tagReducer = {} } = useSelector((state) => state);
+  const navigate = useNavigate();
+  const getId = getValue("userid");
+
+  useEffect(() => {
+    const getId = getValue("userid");
+    if (getId === null) {
+      navigate("/login");
+    }
+  }, []);
+
   return (
     <div className="dash">
       <div className="dash-body">
@@ -14,7 +32,13 @@ const Dashboard = () => {
               <p className="ti">Title</p>
             </div>
             <div>
-              <input type="text" id="sample title" />
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="dash-input"
+                id="sample-title"
+              />
             </div>
           </div>
           <div className="row form-fill">
@@ -24,7 +48,12 @@ const Dashboard = () => {
                   <p className="ti">Tags</p>
                 </div>
                 <div>
-                  <input type="text" id="sample tags" />
+                  <TagInput />
+                </div>
+              </div>
+              <div className="row">
+                <div className="">
+                  <img src={imageReducer.url} alt="" />
                 </div>
               </div>
             </div>

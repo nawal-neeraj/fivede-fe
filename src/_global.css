@@ -1,8 +1,5 @@
 body{
  /* background: #001B30; */
- height: 100vh;
+ /* height: 100vh; */
 }
 
-#webpack-dev-server-client-overlay-div{
- display: none;
-}

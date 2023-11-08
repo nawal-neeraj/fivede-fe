@@ -1,9 +1,16 @@
 .dash{
  background: #FDFFFE;
+ z-index: 2;
 }
 
 .dash-body{
  height: 100vh;
+ margin-left: 12%;
+ width: 88%;
+}
+.dash-input{
+  background:#FDFFFE;
+  width: 100%;
 }
 
 .title{
@@ -25,12 +32,12 @@
   font-size: 20px;
   font-weight:600;
  }
-input{
+/* input{
   border: none;
    border-bottom: 1px solid #DBDBDB;
    background-color: #FFF;
    width: 100%;
-}
+} */
 
 .form-fill{
  padding-top: 40px;

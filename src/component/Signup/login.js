@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Notiflix from "notiflix";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import "../../App.css";
 import log from "../../images/icons/name.png";
+import comp from "../../images/icons/comp.png";
 import email_logo from "../../images/icons/email.svg";
 import lock from "../../images/icons/lock.svg";
 import authService from "../service/authService";
+import { cacheValue } from "../utils";
 
 function Login() {
   const [firstName, setFirstName] = useState("");
@@ -55,6 +57,7 @@ function Login() {
     authService.addUser(data).then((res) => {
       if (res !== null) {
         Notiflix.Notify.success("Data saved Successfully");
+        cacheValue("userid", res.data.savedUser._id);
         navigate("/");
       }
     });
@@ -63,6 +66,9 @@ function Login() {
   return (
     <div className="App">
       <div className="top-container">
+        <div className="logo-img">
+          <img className="logoimg" src={comp} alt="" />
+        </div>
         <div className="signup-form-container">
           <form onSubmit={handleSubmit} className="signup-form">
             <h2>Sign Up</h2>
