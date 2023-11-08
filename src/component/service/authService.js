@@ -6,6 +6,9 @@ const authService = {
   addUser(data) {
     return axios.post(ApiUrl + `/users`, data);
   },
+  addMoment(data) {
+    return axios.post(ApiUrl + `/add/moment`, data);
+  },
 };
 
 export default authService;

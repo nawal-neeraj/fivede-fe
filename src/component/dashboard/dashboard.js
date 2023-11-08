@@ -5,13 +5,15 @@ import "./dashboard.css";
 import { getValue } from "../utils";
 import { useNavigate } from "react-router";
 import TagInput from "../tag/taginput";
+import Notiflix from "notiflix";
+import authService from "../service/authService";
 
 const Dashboard = () => {
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState("");
   const { imageReducer = {} } = useSelector((state) => state);
   const { tagReducer = {} } = useSelector((state) => state);
+  // console.log("----->", imageReducer.url);
   const navigate = useNavigate();
-  const getId = getValue("userid");
 
   useEffect(() => {
     const getId = getValue("userid");
@@ -19,6 +21,41 @@ const Dashboard = () => {
       navigate("/login");
     }
   }, []);
+
+  const handleSubmit = () => {
+    let userid = getValue("userid");
+    // console.log(id);
+    if (title === "") {
+      console.log("aa");
+      Notiflix.Notify.failure("Please Enter title");
+      return null;
+    }
+    if (tagReducer.arr.length <= 0) {
+      Notiflix.Notify.failure("Please Enter tags");
+      return null;
+    }
+    if (imageReducer.url === "") {
+      Notiflix.Notify.failure("Please select images");
+      return null;
+    }
+    const data = {
+      title: title,
+      tag: tagReducer.arr,
+      image: imageReducer.url,
+      comment: "check",
+      userId: userid.replace(/"/g, ""),
+    };
+    try {
+      authService.addMoment(data).then((res) => {
+        if (res !== null) {
+          Notiflix.Notify.success("Data saved Successfully");
+          window.location.reload();
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="dash">
@@ -52,9 +89,11 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="row">
-                <div className="">
-                  <img src={imageReducer.url} alt="" />
-                </div>
+                {imageReducer.url !== "" && (
+                  <div className="side-img">
+                    <img className="img-tag" src={imageReducer.url} alt="" />
+                  </div>
+                )}
               </div>
             </div>
             <div className="col-6">
@@ -64,7 +103,9 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="Submit">
-            <button className="submit-btn">Submit</button>
+            <button onClick={() => handleSubmit()} className="submit-btn">
+              Submit
+            </button>
           </div>
         </div>
       </div>

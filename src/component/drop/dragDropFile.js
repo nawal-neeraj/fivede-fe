@@ -13,12 +13,13 @@ const DragDropFile = () => {
 
   const handleDrop = (event) => {
     event.preventDefault();
-    console.log(event.dataTransfer.files);
+    if (event.dataTransfer.files[0] !== null) {
+      dispatch(setImage(URL.createObjectURL(event.dataTransfer.files[0])));
+    }
   };
 
   const handleBrowes = (e) => {
     e.preventDefault();
-    console.log(e.target.files);
     if (e.target.files[0] !== null) {
       dispatch(setImage(URL.createObjectURL(e.target.files[0])));
     }

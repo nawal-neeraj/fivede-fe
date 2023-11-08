@@ -45,8 +45,6 @@ function Login() {
       Notiflix.Notify.failure("Please enter Password");
       return null;
     }
-
-    console.log({ firstName, lastName, mobile, email, city, password });
     const data = {
       fullname: `${firstName} ${lastName}`,
       mobile,
