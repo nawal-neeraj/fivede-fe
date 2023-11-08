@@ -7,44 +7,36 @@ import { useNavigate } from "react-router";
 import TagInput from "../tag/taginput";
 import Notiflix from "notiflix";
 import authService from "../service/authService";
+import { momentValidation } from "../validation/validation";
 
 const Dashboard = () => {
   const [title, setTitle] = useState("");
+  const [comment, setComment] = useState("");
   const { imageReducer = {} } = useSelector((state) => state);
   const { tagReducer = {} } = useSelector((state) => state);
-  // console.log("----->", imageReducer.url);
+  const maxlength = 100;
+  const getUserId = "userid";
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getId = getValue("userid");
+    const getId = getValue(getUserId);
     if (getId === null) {
       navigate("/login");
     }
   }, []);
 
   const handleSubmit = () => {
-    let userid = getValue("userid");
-    // console.log(id);
-    if (title === "") {
-      console.log("aa");
-      Notiflix.Notify.failure("Please Enter title");
-      return null;
-    }
-    if (tagReducer.arr.length <= 0) {
-      Notiflix.Notify.failure("Please Enter tags");
-      return null;
-    }
-    if (imageReducer.url === "") {
-      Notiflix.Notify.failure("Please select images");
-      return null;
-    }
+    let userid = getValue(getUserId);
     const data = {
       title: title,
       tag: tagReducer.arr,
       image: imageReducer.url,
-      comment: "check",
+      comment: comment,
       userId: userid.replace(/"/g, ""),
     };
+    if (momentValidation(data) === null) {
+      return null;
+    }
     try {
       authService.addMoment(data).then((res) => {
         if (res !== null) {
@@ -86,6 +78,21 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <TagInput />
+                </div>
+              </div>
+              <div className="row">
+                <div>
+                  <p className="ti">Comment</p>
+                </div>
+                <div className="textarea">
+                  <textarea
+                    onChange={(e) => setComment(e.target.value)}
+                    maxLength={maxlength}
+                    className="text-area"
+                  />
+                  <p className="cmnt">
+                    Words: {Math.abs(comment.length - 100)}
+                  </p>
                 </div>
               </div>
               <div className="row">

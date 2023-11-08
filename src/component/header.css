@@ -1,6 +1,15 @@
+.header-section{
+ display: flex;
+ justify-content: space-between;
+}
+
 .Header-wrap{
  background: white;
  margin-left: 14%;
+}
+
+.log-div{
+ padding: 15px;
 }
 
 @media screen and (min-width: 480px) {

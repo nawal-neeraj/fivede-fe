@@ -9,6 +9,7 @@ import email_logo from "../../images/icons/email.svg";
 import lock from "../../images/icons/lock.svg";
 import authService from "../service/authService";
 import { cacheValue } from "../utils";
+import { signupValidation } from "../validation/validation";
 
 function Login() {
   const [firstName, setFirstName] = useState("");
@@ -18,44 +19,25 @@ function Login() {
   const [city, setCity] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const cacheVal = "userid";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (firstName === "") {
-      Notiflix.Notify.failure("Please enter First Name");
-      return null;
-    }
-    if (lastName === "") {
-      Notiflix.Notify.failure("Please enter Last Name");
-      return null;
-    }
-    if (mobile === "") {
-      Notiflix.Notify.failure("Please enter Mobile number");
-      return null;
-    }
-    if (email === "") {
-      Notiflix.Notify.failure("Please enter Email");
-      return null;
-    }
-    if (city === "") {
-      Notiflix.Notify.failure("Please enter City");
-      return null;
-    }
-    if (password === "") {
-      Notiflix.Notify.failure("Please enter Password");
-      return null;
-    }
     const data = {
-      fullname: `${firstName} ${lastName}`,
+      firstname: firstName,
+      lastname: lastName,
       mobile,
       email,
       country: city,
       password,
     };
+    if (signupValidation(data) === null) {
+      return null;
+    }
     authService.addUser(data).then((res) => {
       if (res !== null) {
         Notiflix.Notify.success("Data saved Successfully");
-        cacheValue("userid", res.data.savedUser._id);
+        cacheValue(cacheVal, res.data.savedUser._id);
         navigate("/");
       }
     });
