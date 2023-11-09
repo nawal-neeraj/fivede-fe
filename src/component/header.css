@@ -10,6 +10,12 @@
 
 .log-div{
  padding: 15px;
+ margin-right: 2%;
+ cursor: pointer;
+}
+
+.logout{
+ font-weight: 500;
 }
 
 @media screen and (min-width: 480px) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DragDropFile from "../drop/dragDropFile";
 import "./dashboard.css";
 import { getValue } from "../utils";
@@ -8,16 +8,19 @@ import TagInput from "../tag/taginput";
 import Notiflix from "notiflix";
 import authService from "../service/authService";
 import { momentValidation } from "../validation/validation";
+import { setImage } from "../redux/action";
 
 const Dashboard = () => {
   const [title, setTitle] = useState("");
+  const dispatch = useDispatch();
   const [comment, setComment] = useState("");
   const { imageReducer = {} } = useSelector((state) => state);
   const { tagReducer = {} } = useSelector((state) => state);
+  const { progressReducer = {} } = useSelector((state) => state);
+  let bar = progressReducer.progress;
   const maxlength = 100;
   const getUserId = "userid";
   const navigate = useNavigate();
-  console.log(imageReducer.url);
 
   useEffect(() => {
     const getId = getValue(getUserId);
@@ -48,6 +51,10 @@ const Dashboard = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handlermvImg = () => {
+    dispatch(setImage(""));
   };
 
   return (
@@ -102,8 +109,37 @@ const Dashboard = () => {
                     <div className="img-title">
                       <p>Uploading</p>
                     </div>
-                    <div className="side-img">
-                      <img className="img-tag" src={imageReducer.url} alt="" />
+                    <div className="row topImgProg">
+                      <div className="col-2 side-img">
+                        <img
+                          className="img-tag"
+                          src={imageReducer.url}
+                          alt=""
+                        />
+                      </div>
+                      <div className="col-9 Prog">
+                        <p className="pic-font">Image.jpg</p>
+                        <div class="progress">
+                          <div
+                            className="progress-bar info"
+                            role="progressbar"
+                            style={{
+                              width: `${bar}%`,
+                              height: "2px",
+                              color: "#fff",
+                            }}
+                            aria-valuenow="2"
+                            aria-valuemin="0"
+                            aria-valuemax="1"
+                          ></div>
+                        </div>
+                      </div>
+                      <div
+                        onClick={() => handlermvImg()}
+                        className="col-1 remv"
+                      >
+                        x
+                      </div>
                     </div>
                   </div>
                 )}

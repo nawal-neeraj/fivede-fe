@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import "./dragdropfile.css";
-import { setImage } from "../redux/action";
+import { setImage, setProgress } from "../redux/action";
 import axios from "axios";
 
 const DragDropFile = () => {
   const cloudUrl = "https://api.cloudinary.com/v1_1";
-  const [file, setFile] = useState(null);
   const dispatch = useDispatch();
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -31,7 +30,13 @@ const DragDropFile = () => {
         formData.append("upload_preset", preset_key);
         let url = `${cloudUrl}/${cloudName}/image/upload`;
         axios
-          .post(`${url}`, formData)
+          .post(`${url}`, formData, {
+            onUploadProgress: (event) => {
+              dispatch(
+                setProgress(Math.round((100 * event.loaded) / event.total))
+              );
+            },
+          })
           .then((res) => {
             dispatch(setImage(res.data.secure_url));
           })

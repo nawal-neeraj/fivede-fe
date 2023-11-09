@@ -6,3 +6,7 @@ export const getValue = (name) => {
   const res = localStorage.getItem(name);
   return res;
 };
+
+export const clearValue = (name) => {
+  localStorage.clear(name);
+};

@@ -17,3 +17,9 @@ export const remArr = (arr) => {
     payload: arr,
   };
 };
+export const setProgress = (progress) => {
+  return {
+    type: "SET_PROGRESS",
+    payload: progress,
+  };
+};

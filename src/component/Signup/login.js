@@ -36,11 +36,14 @@ function Login() {
     }
     try {
       authService.addUser(data).then((res) => {
-        if (res !== null) {
+        console.log(res);
+        if (!res.data.error) {
+          console.log("hello");
           Notiflix.Notify.success("Data saved Successfully");
           cacheValue(cacheVal, res.data.savedUser._id);
           navigate("/");
         }
+        Notiflix.Notify.success(res.data.error);
       });
     } catch (err) {
       console.log(err);
