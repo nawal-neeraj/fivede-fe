@@ -34,13 +34,17 @@ function Login() {
     if (signupValidation(data) === null) {
       return null;
     }
-    authService.addUser(data).then((res) => {
-      if (res !== null) {
-        Notiflix.Notify.success("Data saved Successfully");
-        cacheValue(cacheVal, res.data.savedUser._id);
-        navigate("/");
-      }
-    });
+    try {
+      authService.addUser(data).then((res) => {
+        if (res !== null) {
+          Notiflix.Notify.success("Data saved Successfully");
+          cacheValue(cacheVal, res.data.savedUser._id);
+          navigate("/");
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

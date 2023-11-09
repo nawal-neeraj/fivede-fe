@@ -17,6 +17,7 @@ const Dashboard = () => {
   const maxlength = 100;
   const getUserId = "userid";
   const navigate = useNavigate();
+  console.log(imageReducer.url);
 
   useEffect(() => {
     const getId = getValue(getUserId);
@@ -97,8 +98,13 @@ const Dashboard = () => {
               </div>
               <div className="row">
                 {imageReducer.url !== "" && (
-                  <div className="side-img">
-                    <img className="img-tag" src={imageReducer.url} alt="" />
+                  <div>
+                    <div className="img-title">
+                      <p>Uploading</p>
+                    </div>
+                    <div className="side-img">
+                      <img className="img-tag" src={imageReducer.url} alt="" />
+                    </div>
                   </div>
                 )}
               </div>
@@ -109,11 +115,11 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="Submit">
-            <button onClick={() => handleSubmit()} className="submit-btn">
-              Submit
-            </button>
-          </div>
+        </div>
+        <div className="Submit">
+          <button onClick={() => handleSubmit()} className="submit-btn">
+            Submit
+          </button>
         </div>
       </div>
     </div>

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./dragdropfile.css";
 import { setImage } from "../redux/action";
+import axios from "axios";
 
 const DragDropFile = () => {
+  const cloudUrl = "https://api.cloudinary.com/v1_1";
   const [file, setFile] = useState(null);
   const dispatch = useDispatch();
   const handleDragOver = (event) => {
@@ -20,8 +22,25 @@ const DragDropFile = () => {
 
   const handleBrowes = (e) => {
     e.preventDefault();
-    if (e.target.files[0] !== null) {
-      dispatch(setImage(URL.createObjectURL(e.target.files[0])));
+    const cloudName = process.env.REACT_APP_CLOUDE_NAME;
+    const preset_key = process.env.REACT_APP_PRESEST_KEY;
+    try {
+      if (e.target.files[0] !== null) {
+        const formData = new FormData();
+        formData.append("file", e.target.files[0]);
+        formData.append("upload_preset", preset_key);
+        let url = `${cloudUrl}/${cloudName}/image/upload`;
+        axios
+          .post(`${url}`, formData)
+          .then((res) => {
+            dispatch(setImage(res.data.secure_url));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   return (
